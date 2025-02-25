@@ -56,6 +56,9 @@ Results
 |Mean of Test Set|	1204.179810|
 |Standard Deviation of Test Set	|930.158020|
 |Relative Standard Deviation	|0.772441|
+|R2 Score	Random Forest Regressor |82 %|
+
+
 
 Refrences
 ------
