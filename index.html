@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Energy Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        async function predictEnergy() {
+            const inputData = {
+                temperature_2_m_above_gnd: parseFloat(document.getElementById("temperature").value),
+                relative_humidity_2_m_above_gnd: parseFloat(document.getElementById("humidity").value),
+                mean_sea_level_pressure_MSL: parseFloat(document.getElementById("pressure").value),
+                total_precipitation_sfc: parseFloat(document.getElementById("precipitation").value),
+                snowfall_amount_sfc: parseFloat(document.getElementById("snowfall").value),
+                total_cloud_cover_sfc: parseFloat(document.getElementById("cloud_cover").value),
+                high_cloud_cover_high_cld_lay: parseFloat(document.getElementById("high_cloud").value),
+                medium_cloud_cover_mid_cld_lay: parseFloat(document.getElementById("mid_cloud").value),
+                low_cloud_cover_low_cld_lay: parseFloat(document.getElementById("low_cloud").value),
+                shortwave_radiation_backwards_sfc: parseFloat(document.getElementById("radiation").value),
+                wind_speed_10_m_above_gnd: parseFloat(document.getElementById("wind_speed_10m").value),
+                wind_direction_10_m_above_gnd: parseFloat(document.getElementById("wind_dir_10m").value),
+                wind_speed_80_m_above_gnd: parseFloat(document.getElementById("wind_speed_80m").value),
+                wind_direction_80_m_above_gnd: parseFloat(document.getElementById("wind_dir_80m").value),
+                wind_speed_900_mb: parseFloat(document.getElementById("wind_speed_900mb").value),
+                wind_direction_900_mb: parseFloat(document.getElementById("wind_dir_900mb").value),
+                wind_gust_10_m_above_gnd: parseFloat(document.getElementById("wind_gust").value),
+                angle_of_incidence: parseFloat(document.getElementById("incidence").value),
+                zenith: parseFloat(document.getElementById("zenith").value),
+                azimuth: parseFloat(document.getElementById("azimuth").value),
+            };
+
+            const response = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(inputData),
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = "Predicted Energy Usage: " + result.predicted_energy_usage;
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Solar Energy Prediction</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <label>Temperature (°C): <input type="number" id="temperature" class="input"></label>
+            <label>Humidity (%): <input type="number" id="humidity" class="input"></label>
+            <label>Pressure (hPa): <input type="number" id="pressure" class="input"></label>
+            <label>Precipitation (mm): <input type="number" id="precipitation" class="input"></label>
+            <label>Snowfall (mm): <input type="number" id="snowfall" class="input"></label>
+            <label>Cloud Cover (%): <input type="number" id="cloud_cover" class="input"></label>
+            <label>High Cloud Cover (%): <input type="number" id="high_cloud" class="input"></label>
+            <label>Medium Cloud Cover (%): <input type="number" id="mid_cloud" class="input"></label>
+            <label>Low Cloud Cover (%): <input type="number" id="low_cloud" class="input"></label>
+            <label>Shortwave Radiation (W/m²): <input type="number" id="radiation" class="input"></label>
+            <label>Wind Speed 10m (m/s): <input type="number" id="wind_speed_10m" class="input"></label>
+            <label>Wind Direction 10m (°): <input type="number" id="wind_dir_10m" class="input"></label>
+            <label>Wind Speed 80m (m/s): <input type="number" id="wind_speed_80m" class="input"></label>
+            <label>Wind Direction 80m (°): <input type="number" id="wind_dir_80m" class="input"></label>
+            <label>Wind Speed 900mb (m/s): <input type="number" id="wind_speed_900mb" class="input"></label>
+            <label>Wind Direction 900mb (°): <input type="number" id="wind_dir_900mb" class="input"></label>
+            <label>Wind Gust (m/s): <input type="number" id="wind_gust" class="input"></label>
+            <label>Angle of Incidence (°): <input type="number" id="incidence" class="input"></label>
+            <label>Zenith (°): <input type="number" id="zenith" class="input"></label>
+            <label>Azimuth (°): <input type="number" id="azimuth" class="input"></label>
+        </div>
+        <button onclick="predictEnergy()" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg transition-transform transform hover:scale-105">Predict</button>
+        <h3 id="result" class="mt-4 text-center text-lg font-semibold text-gray-700"></h3>
+    </div>
+
+    <style>
+        .input {
+            @apply w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 transition-all;
+        }
+    </style>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Energy Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        async function predictEnergy() {
+            const inputData = {
+                temperature_2_m_above_gnd: parseFloat(document.getElementById("temperature").value),
+                relative_humidity_2_m_above_gnd: parseFloat(document.getElementById("humidity").value),
+                mean_sea_level_pressure_MSL: parseFloat(document.getElementById("pressure").value),
+                total_precipitation_sfc: parseFloat(document.getElementById("precipitation").value),
+                snowfall_amount_sfc: parseFloat(document.getElementById("snowfall").value),
+                total_cloud_cover_sfc: parseFloat(document.getElementById("cloud_cover").value),
+                high_cloud_cover_high_cld_lay: parseFloat(document.getElementById("high_cloud").value),
+                medium_cloud_cover_mid_cld_lay: parseFloat(document.getElementById("mid_cloud").value),
+                low_cloud_cover_low_cld_lay: parseFloat(document.getElementById("low_cloud").value),
+                shortwave_radiation_backwards_sfc: parseFloat(document.getElementById("radiation").value),
+                wind_speed_10_m_above_gnd: parseFloat(document.getElementById("wind_speed_10m").value),
+                wind_direction_10_m_above_gnd: parseFloat(document.getElementById("wind_dir_10m").value),
+                wind_speed_80_m_above_gnd: parseFloat(document.getElementById("wind_speed_80m").value),
+                wind_direction_80_m_above_gnd: parseFloat(document.getElementById("wind_dir_80m").value),
+                wind_speed_900_mb: parseFloat(document.getElementById("wind_speed_900mb").value),
+                wind_direction_900_mb: parseFloat(document.getElementById("wind_dir_900mb").value),
+                wind_gust_10_m_above_gnd: parseFloat(document.getElementById("wind_gust").value),
+                angle_of_incidence: parseFloat(document.getElementById("incidence").value),
+                zenith: parseFloat(document.getElementById("zenith").value),
+                azimuth: parseFloat(document.getElementById("azimuth").value),
+            };
+
+            const response = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(inputData),
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = "Predicted Energy Usage: " + result.predicted_energy_usage;
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white flex justify-center items-center min-h-screen">
+    <div class="w-full max-w-lg p-6 bg-gray-800 shadow-lg rounded-lg">
+        <h2 class="text-2xl font-bold text-center mb-4">Solar Energy Prediction</h2>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium">Temperature (°C):</label>
+                <input type="number" id="temperature" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-md">
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Humidity (%):</label>
+                <input type="number" id="humidity" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-md">
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Pressure (hPa):</label>
+                <input type="number" id="pressure" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-md">
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Precipitation (mm):</label>
+                <input type="number" id="precipitation" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-md">
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Snowfall (mm):</label>
+                <input type="number" id="snowfall" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-md">
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Cloud Cover (%):</label>
+                <input type="number" id="cloud_cover" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-md">
+            </div>
+        </div>
+
+        <button onclick="predictEnergy()" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+            Predict Energy Usage
+        </button>
+
+        <h3 id="result" class="mt-4 text-lg font-semibold text-center text-yellow-400"></h3>
+    </div>
+</body>
+</html> -->
