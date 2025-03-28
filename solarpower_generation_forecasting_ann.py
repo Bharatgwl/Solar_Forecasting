@@ -29,6 +29,7 @@ from keras.optimizers import RMSprop, Adam, SGD
 import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
+import joblib
 
 # %% [markdown] id="k6wzetIP_hgj"
 # ## importing dataset
@@ -133,13 +134,13 @@ plt.show()
 spfnet.evaluate(X_train, y_train)
 
 # %%
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import root_mean_squared_error
 
 y_pred = spfnet.predict(X_test) # get model predictions (scaled inputs here)
 y_pred_orig = sc_y.inverse_transform(y_pred) # unscale the predictions
 y_test_orig = sc_y.inverse_transform(y_test) # unscale the true test outcomes
 
-RMSE_orig = mean_squared_error(y_pred_orig, y_test_orig, squared=False)
+RMSE_orig =root_mean_squared_error(y_pred_orig, y_test_orig, squared=False)
 RMSE_orig
 
 # %%
@@ -264,3 +265,5 @@ lasso_coeff.sort_values('Feature Importance', ascending=False)
 g = lasso_coeff[lasso_coeff['Feature Importance']!=0].sort_values('Feature Importance').plot(kind='barh',figsize=(6,6), cmap='winter')
 
 # %%
+# %%
+joblib.dump(spfnet, 'spf_model.pkl')
